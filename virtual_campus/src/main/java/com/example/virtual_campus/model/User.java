@@ -20,7 +20,9 @@ public class User {
 
     private String username;
     private String password;
-    private String name;
+    private String telephone_number;
+    private String college;//学院
+    private String name;//角色名
     private String userId;  // 学号或工号
 
     @ManyToMany(fetch = FetchType.EAGER)

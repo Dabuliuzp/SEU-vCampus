@@ -22,7 +22,7 @@ public class Student {
     private Long id;
 
     private String name;
-    private String studentId;  // 学号
+    private String sex;
     private String grade;
     private String major;
     private String status;  // 学籍状态：在读、休学、退学等
@@ -37,6 +37,13 @@ public class Student {
     )
     private Set<Course> courses = new HashSet<>();
 
+    @OneToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+    // 获取 userId
+    public String getUserId() {
+        return user.getUserId();
+    }
     // Lombok 自动生成的
     // e> getCourses() {
     //     return this.courses;

@@ -1,6 +1,7 @@
 package com.example.virtual_campus.controller;
 
 import com.example.virtual_campus.model.Student;
+import com.example.virtual_campus.model.User;
 import com.example.virtual_campus.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +22,8 @@ public class StudentController {
     private StudentService studentService;
 
     @PostMapping("/")
-    public ResponseEntity<Student> addStudent(@RequestBody Student student) {
-        Student newStudent = studentService.addStudent(student);
+    public ResponseEntity<Student> addStudent(@RequestBody Student student, @RequestParam Long userId) {
+        Student newStudent = studentService.addStudent(student, userId);
         return ResponseEntity.ok(newStudent);
     }
 

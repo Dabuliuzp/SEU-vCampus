@@ -52,7 +52,7 @@ public class CourseService {
         courseRepository.deleteById(id);
     }
 
-    public void enrollCourse(Long studentId, Long courseId) {//报名课程信息
+    public void enrollCourse(Long studentId, Long courseId) {//报名课程
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
         Course course = courseRepository.findById(courseId)
@@ -67,7 +67,7 @@ public class CourseService {
         }
     }
 
-    public void dropCourse(Long studentId, Long courseId) {
+    public void dropCourse(Long studentId, Long courseId) {//退课
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
         Course course = courseRepository.findById(courseId)
@@ -77,13 +77,13 @@ public class CourseService {
         studentRepository.save(student);
     }
 
-    public List<Course> getCoursesByStudent(Long studentId) {
+    public List<Course> getCoursesByStudent(Long studentId) {//获取学生选课信息
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
         return new ArrayList<>(student.getCourses());
     }
 
-    public List<Student> getStudentsByCourse(Long courseId) {
+    public List<Student> getStudentsByCourse(Long courseId) {//获取所有选该课学生
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new RuntimeException("Course not found"));
         return new ArrayList<>(course.getEnrolledStudents());

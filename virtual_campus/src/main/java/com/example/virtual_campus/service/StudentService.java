@@ -1,7 +1,9 @@
 package com.example.virtual_campus.service;
 
 import com.example.virtual_campus.model.Student;
+import com.example.virtual_campus.model.User;
 import com.example.virtual_campus.repository.StudentRepository;
+import com.example.virtual_campus.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,14 +21,20 @@ public class StudentService {
     @Autowired
     private StudentRepository studentRepository;
 
-    public Student addStudent(Student student) {//新增学生
+    @Autowired
+    private UserRepository userRepository;
+
+    public Student addStudent(Student student, Long userId) {//添加学生
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        student.setUser(user);
         return studentRepository.save(student);
     }
 
     public Optional<Student> updateStudent(Long id, Student studentDetails) {//更新学生
         return studentRepository.findById(id).map(student -> {
             student.setName(studentDetails.getName());
-            student.setStudentId(studentDetails.getStudentId());
             student.setGrade(studentDetails.getGrade());
             student.setMajor(studentDetails.getMajor());
             student.setStatus(studentDetails.getStatus());
@@ -38,7 +46,7 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
-    public Optional<Student> getStudentById(Long id) {//获取单个学生
+    public Optional<Student> getStudentById(Long id) {//获取指定学生信息
         return studentRepository.findById(id);
     }
 
@@ -46,7 +54,7 @@ public class StudentService {
         studentRepository.deleteById(id);
     }
 
-    public void changeStudentStatus(Long studentId, String status) {//更改学生学籍
+    public void changeStudentStatus(Long studentId, String status) {//改变学生学籍状态
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
         student.setStatus(status);
